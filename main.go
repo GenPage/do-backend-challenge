@@ -6,6 +6,7 @@ import (
 	"strings"
 
 	"github.com/genpage/do-backend-challenge/lib/manager"
+	"github.com/genpage/do-backend-challenge/lib/model"
 )
 
 func main() {
@@ -65,14 +66,21 @@ func handleConn(conn net.Conn, manager manager.Manager) {
 		return
 	}
 
+	//Process & validate package, command, dependencies from message
+	p, err := model.PackageFromString(s)
+	if err != nil {
+		fmt.Fprintln(conn, "ERROR")
+		return
+	}
+
 	err = nil
-	switch strings.Split(s, "|")[0] {
+	switch p.Command {
 	case "INDEX":
-		//err = manager.Index()
+		err = manager.Index(p)
 	case "REMOVE":
-		//err = manager.Remove()
+		err = manager.Remove(p)
 	case "QUERY":
-		//err = manager.Query()
+		err = manager.Query(p)
 	default:
 		fmt.Fprintln(conn, "ERROR")
 		return
