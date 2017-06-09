@@ -35,7 +35,7 @@ func connectedConns(l net.Listener) chan net.Conn {
 				continue
 			}
 			i++
-			fmt.Printf("#%d: %v\n", i, client.LocalAddr())
+			fmt.Printf("#%d: %v\n", i, client.RemoteAddr())
 			ch <- client
 		}
 	}()
