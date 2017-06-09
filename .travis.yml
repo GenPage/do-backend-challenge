@@ -1,5 +1,15 @@
+sudo: required
+
 language: go
 
-go:
-  - 1.8.x
-  - master
+services:
+  - docker
+
+before_install:
+  - docker build -t genpage/do-backend-challenge .
+  - docker run -d -p 127.0.0.1:8080:8080 genpage/do-backend-challenge /bin/sh -c "cd $HOME/gopath/src/github.com/GenPage/do-backend-challenge; go install; go run"
+  - docker ps -a
+  - docker run genpage/do-backend-challenge /bin/sh -c "cd $HOME/gopath/src/github.com/GenPage/do-backend-challenge; go test -v ./..."
+
+script:
+  - go test -v ./...
