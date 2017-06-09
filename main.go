@@ -22,13 +22,15 @@ func connectedConns(l net.Listener) chan net.Conn {
 	ch := make(chan net.Conn)
 
 	go func() {
-		client, err := l.Accept()
+		for {
+			client, err := l.Accept()
 
-		if err != nil {
-			fmt.Printf("%v", err)
-			continue
+			if err != nil {
+				fmt.Printf("%v", err)
+				continue
+			}
+			ch <- client
 		}
-		ch <- client
 	}()
 	return ch
 }
