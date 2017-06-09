@@ -24,6 +24,7 @@ func main() {
 
 func connectedConns(l net.Listener) chan net.Conn {
 	ch := make(chan net.Conn)
+	i := 0
 
 	go func() {
 		for {
@@ -33,9 +34,12 @@ func connectedConns(l net.Listener) chan net.Conn {
 				fmt.Printf("%v", err)
 				continue
 			}
+			i++
+			fmt.Printf("#%d: %v\n", i, client.LocalAddr())
 			ch <- client
 		}
 	}()
+
 	return ch
 }
 
