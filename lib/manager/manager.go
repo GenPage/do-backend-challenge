@@ -36,8 +36,7 @@ func (m *manager) Index(p *model.Package) error {
 	defer m.packagesMx.Unlock()
 
 	//Check if package already in map
-	err := m.Query(p)
-	if err == nil {
+	if _, ok := m.packages[p.Name]; ok {
 		return errAlreadyExists
 	}
 
@@ -58,8 +57,7 @@ func (m *manager) Remove(p *model.Package) error {
 	defer m.packagesMx.Unlock()
 
 	//Check if package already in map
-	err := m.Query(p)
-	if err != nil {
+	if _, ok := m.packages[p.Name]; !ok {
 		return nil
 	}
 
