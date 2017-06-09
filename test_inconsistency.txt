@@ -1,0 +1,32 @@
+DylanDaielsMBP2:.extra dpage$ echo -n "REMOVE|a2ps|" | nc localhost 8080
+OK
+DylanDaielsMBP2:.extra dpage$ echo -n "INDEX|a2ps|" | nc localhost 8080
+OK
+DylanDaielsMBP2:.extra dpage$ echo -n "QUERY|a2ps|" | nc localhost 8080
+OK
+DylanDaielsMBP2:.extra dpage$ echo -n "REMOVE|a2ps|" | nc localhost 8080
+OK
+DylanDaielsMBP2:.extra dpage$ echo -n "INDEX|a2ps|" | nc localhost 8080
+OK
+DylanDaielsMBP2:.extra dpage$ echo -n "INDEX|a2ps3|a2ps" | nc localhost 8080
+OK
+DylanDaielsMBP2:.extra dpage$ echo -n "REMOVE|a2ps|" | nc localhost 8080
+FAIL
+DylanDaielsMBP2:.extra dpage$ ./do-package-tree_darwin --concurrency 1
+2017/06/09 17:42:24 ================
+2017/06/09 17:42:24  Starting test
+2017/06/09 17:42:24 ================
+2017/06/09 17:42:24 expected server port [8080]
+2017/06/09 17:42:24 concurrency level    [1]
+2017/06/09 17:42:24 unluckiness          [5]
+2017/06/09 17:42:24 TESTRUN Starting...
+2017/06/09 17:42:24 TESTRUN - Trying to remove, index, then remove again a large amount of packages
+2017/06/09 17:42:24 Step 1: Attempting to remove any previously installed packages (by failed test runs or whatever other reason)
+2017/06/09 17:42:24 Starting client[2]
+2017/06/09 17:42:24 client[2] connecting to [localhost:8080]
+2017/06/09 17:42:24 client[2] brute-forcing removal of 3370 packages
+2017/06/09 17:42:24 ================
+2017/06/09 17:42:24   Test FAILED!
+2017/06/09 17:42:24 ================
+2017/06/09 17:42:24 Test failed (took 171ms)
+client[2] found error when sending message [REMOVE|a52dec|]: Error reading response code from server: EOF
