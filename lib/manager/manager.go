@@ -8,10 +8,10 @@ import (
 )
 
 var (
-	errAlreadyExists    = errors.New("ERROR\n")
-	errDoesNotExist     = errors.New("ERROR\n")
-	errMissingDepedency = errors.New("ERROR\n")
-	errDepedencyFound   = errors.New("ERROR\n")
+	errAlreadyExists    = errors.New("Already Exists\n")
+	errDoesNotExist     = errors.New("Does Not Exist\n")
+	errMissingDepedency = errors.New("Missing Depedency\n")
+	errDepedencyFound   = errors.New("Depedency Found\n")
 )
 
 type Manager interface {
@@ -41,9 +41,11 @@ func (m *manager) Index(p *model.Package) error {
 	}
 
 	//Make sure package has depedencies in map
-	for _, dep := range p.Depedencies {
-		if _, ok := m.packages[dep]; !ok {
-			return errMissingDepedency
+	if len(p.Depedencies) > 0 {
+		for _, dep := range p.Depedencies {
+			if _, ok := m.packages[dep]; !ok {
+				return errMissingDepedency
+			}
 		}
 	}
 
@@ -62,9 +64,11 @@ func (m *manager) Remove(p *model.Package) error {
 	}
 
 	//Check for any remaining dependencies
-	for _, dep := range p.Depedencies {
-		if _, ok := m.packages[dep]; ok {
-			return errDepedencyFound
+	for _, pack := range m.packages {
+		for _, dep := range pack.Depedencies {
+			if dep == p.Name {
+				return errDepedencyFound
+			}
 		}
 	}
 

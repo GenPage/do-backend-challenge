@@ -14,10 +14,15 @@ type Package struct {
 
 func PackageFromString(input string) (*Package, error) {
 	s := strings.Split(input, "|")
+
 	p := &Package{
 		Command:     s[0],
 		Name:        s[1],
-		Depedencies: strings.Split(s[2], ","),
+		Depedencies: nil,
+	}
+
+	if len(s[2]) > 0 {
+		p.Depedencies = strings.Split(s[2], ",")
 	}
 
 	err := p.validate()
